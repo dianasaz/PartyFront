@@ -7,7 +7,7 @@ function Header() {
                 <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-                <a className="navbar-brand" href="#">Name</a>
+                <a className="navbar-brand" href="#">PartyLand</a>
                 <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
                     <li className="nav-item">
                         <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
@@ -26,18 +26,6 @@ function Header() {
             </div>
         </nav>
 
-
-        //      <div class ="d-md-flex flex-row bg-secondary p-1">
-        //     <div class="bg-success m-1 pl-5 pr-5">
-        //         <h1>1</h1>  
-        //     </div>
-        //     <div class="bg-success m-1 pl-5 pr-5">
-        //         <h1>2</h1>
-        //     </div>
-        //     <div class="bg-success m-1 pl-5 pr-5">
-        //         <h1>3</h1>
-        //     </div>
-        // </div> 
             );
           }
           

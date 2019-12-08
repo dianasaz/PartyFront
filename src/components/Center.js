@@ -1,6 +1,8 @@
 import React from 'react';
 import { Component } from 'react';
 import common_requests from '../requests/commonRequests';
+import './Center.css';
+import product from './Product'
 
 class Center extends Component {
 	constructor(props) {
@@ -10,58 +12,50 @@ class Center extends Component {
 		}
 	}
 
-	// componentDidMount() {
-	// 	const a = commonRequests.getAction();
-	// 	this.setState(a)
-	// }
-
+	products() {
+		const arr = [1, 2, 3];
+		return arr.map((number) =>
+			product()
+		);
+	}
 	render() {
-		const {data} =  this.state;
+		const { data } = this.state;
 		console.log(data);
-		 return (
-		 		//  <div className="col-md-6 col-lg-8">
-					
-		 		// </div>
-				<div class="row d-flex col-lg-8">
-					<div class="row d-flex col-lg-12">
-						<div class="border flex-column col-lg-6">
-						<div class="border">
-							{/* {data.map(data =>
-								<div class="m-2 p-2" key={data.id}>
-									<h1>{data.id} : {data.login}</h1>
+		return (
+			<div className="col-md-9 col-lg-10">
+				<section id="tabs">
+					<div className="row">
+						<div className="col-12 ">
+							<nav>
+								<div className="nav nav-tabs nav-fill nav-justified" id="nav-tab" role="tablist">
+									<a className="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Products</a>
+									<a className="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Info</a>
+									<a className="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">People</a>
+									<a className="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-about" aria-selected="false">Tasks</a>
 								</div>
-							)} */}
-							<h1>Products</h1>
-							<h3>Pesto</h3>
-							<h3>Chocolate</h3>
-							<h3>Cheese</h3>
-						</div> 
-						<div class="border">
-							<p>update delete</p>
-						</div>      
-						</div>
-						<div class="border col-lg-6">
-							<h1>Info</h1>
-							<h3>Address</h3>
-							<h3>Date</h3>
-							<h3>People</h3>
-						</div>
-					</div>
-					<div class="row d-flex col-lg-12">
-					<div class="border col-lg-6">
-							<h1>People</h1>
-							<h3>Vadim</h3>
-							<h3>Julia</h3>
-							<h3>Misha</h3>
-						</div>
-						<div class="border col-lg-6">
-							<h1>Tasks</h1>
-							<h3>1</h3>
-							<h3>2</h3>
-							<h3>3</h3>
+							</nav>
+							<div className="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+								<div className="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+									<div id="products" className="container">
+										<div className="row">
+											{this.products()}
+										</div>
+									</div>
+								</div>
+								<div className="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+									info
+								</div>
+								<div className="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+									people
+								</div>
+								<div className="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
+									tasks
+								</div>
+							</div>
 						</div>
 					</div>
-				</div>
+				</section>
+			</div>
 		);
 	}
 }
