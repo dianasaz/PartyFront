@@ -1,17 +1,16 @@
 import React from 'react';
+import logo from './logo.svg';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Content from './components/Content';
 
-function App() {
+function Profile() {
   return (
-    <div className="container-fliud">
+    <div className="container-fliud bg-secondary">
       <Header />
-      <Content />
-    
       <Footer />
     </div>
   );
 }
 
-export default App;
+export default Profile;
