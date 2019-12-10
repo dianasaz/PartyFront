@@ -1,4 +1,5 @@
 import React from 'react';
+import ButtonLogin from './ButtonLogin';
 
 function Header() {
     return (
@@ -16,12 +17,13 @@ function Header() {
                         <a className="nav-link" href="#">Profile</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#">Parties</a>
+                        <a onClick={(e) => { window.location.assign('http://localhost:3000/parties');}} className="nav-link">Parties</a>
                     </li>
                 </ul>
                 <form className="form-inline my-2 my-lg-0">
-                    <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
-                    <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    {/* <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/> */}
+                    {/* <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> */}
+                    <ButtonLogin />
                 </form>
             </div>
         </nav>

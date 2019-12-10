@@ -11,7 +11,7 @@ function Login() {
                 <button className="btn google-btn social-btn" type="button"><span><i class="fab fa-google-plus-g"></i> Sign in with Google+</span> </button>
             </div>
             <p> OR  </p>
-            <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus=""/>
+            <input type="email" id="inputEmail" class="form-control" placeholder="Login" required="" autofocus=""/>
             <input type="password" id="inputPassword" class="form-control" placeholder="Password" required=""/>
             
             <button className="btn btn-success btn-block" type="submit"><i className="fas fa-sign-in-alt"></i> Sign in</button>

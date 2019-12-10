@@ -7,6 +7,12 @@ const getAction = () => {
     })
 }
 
+const getProducts = () => {
+    return asyncAPI('getJSON', {
+        url: `/products/all`,
+    })
+}
+
 const postAction = (processId, actionType, comment) => {
     const action = {
         processId: processId,
@@ -21,5 +27,6 @@ const postAction = (processId, actionType, comment) => {
 
 export default {
     getAction,
-    postAction
+    postAction,
+    getProducts
 }

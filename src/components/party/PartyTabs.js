@@ -1,28 +1,42 @@
 import React from 'react';
 import { Component } from 'react';
-import common_requests from '../requests/commonRequests';
-import './Center.css';
-import product from './Product'
+import CommonRequests from '../../requests/commonRequests';
+import './PartyTabs.css';
+import Product from '../Product';
 
 class Center extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			data: [common_requests.getAction()]
+			data: null,
+			products: null,
 		}
 	}
 
-	products() {
-		const arr = [1, 2, 3];
-		return arr.map((number) =>
-			product()
-		);
+	componentDidMount(){
+		CommonRequests.getAction()
+		.then (result => {
+			this.setState({data: result})
+		});
+
+		CommonRequests.getProducts()
+		.then (res => {
+			this.setState({products: res})
+		});
 	}
+
+	prod(){
+		const{products} = this.state;
+		products.map(() => <Product/>)
+	}
+
 	render() {
-		const { data } = this.state;
-		console.log(data);
+		//const arr = this.state.data;
+		const {products} = this.state;
+		const elements = products.map()
+		console.log(products);
 		return (
-			<div className="col-md-9 col-lg-10">
+			<div className="col-10">
 				<section id="tabs">
 					<div className="row">
 						<div className="col-12 ">
@@ -38,7 +52,7 @@ class Center extends Component {
 								<div className="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 									<div id="products" className="container">
 										<div className="row">
-											{this.products()}
+											{this.prod()}
 										</div>
 									</div>
 								</div>
@@ -46,7 +60,7 @@ class Center extends Component {
 									info
 								</div>
 								<div className="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-									people
+								People
 								</div>
 								<div className="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
 									tasks

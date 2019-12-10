@@ -3,9 +3,7 @@ import Party from './Party';
 
 function Parties() {
   return (
-    <div className ="row">
-	    {/* <Left />
-	    <Center /> */}
+    <div className="container">
       <Party />
       <Party />
       <Party />

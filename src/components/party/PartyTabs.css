@@ -35,8 +35,11 @@ section .section-title {
 }
 
 #products .product {
-    background-color: rgb(20, 255, 118);
+    /* background-color: rgb(20, 255, 118); */
     max-width: 150px;
-    border-radius: 5px;
+    border-radius: 3px;
     margin: 1rem;
+}
+.product:hover{
+    background-color:yellow;
 }
