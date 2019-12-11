@@ -25,16 +25,15 @@ class Center extends Component {
 		});
 	}
 
-	prod(){
-		const{products} = this.state;
-		products.map(() => <Product/>)
-	}
+	// prod(){
+	// 	const{products} = this.state;
+	// 	products.map(() => <Product/>)
+	// }
 
 	render() {
-		//const arr = this.state.data;
 		const {products} = this.state;
-		const elements = products.map()
-		console.log(products);
+		const arr = products.map((el) => el);
+		console.log(arr);
 		return (
 			<div className="col-10">
 				<section id="tabs">
@@ -52,7 +51,7 @@ class Center extends Component {
 								<div className="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 									<div id="products" className="container">
 										<div className="row">
-											{this.prod()}
+											<p>products</p>
 										</div>
 									</div>
 								</div>

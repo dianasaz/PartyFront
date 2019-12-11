@@ -13,14 +13,14 @@ const getProducts = () => {
     })
 }
 
-const postAction = (processId, actionType, comment) => {
+const postAction = (inputLogin, inputPassword, inputRole) => {
     const action = {
-        processId: processId,
-        actionType: actionType,
-        comment: comment,
+        login: inputLogin,
+        password: inputPassword,
+        role: inputRole,
     }
     return asyncAPI('postJSON', {
-        url: `/action`,
+        url: `/users/add`,
         data: action,
     })
 }

@@ -17,7 +17,7 @@ function Login() {
             <button className="btn btn-success btn-block" type="submit"><i className="fas fa-sign-in-alt"></i> Sign in</button>
             <a href="#" id="forgot_pswd">Forgot password?</a>
             <p>Don't have an account!</p>
-            <button className="btn btn-primary btn-block" type="button" id="btn-signup"><i className="fas fa-user-plus"></i> Sign up New Account</button>
+            <button className="btn btn-primary btn-block" type="button" id="btn-signup"><i className="fas fa-user-plus"></i><a onClick={(e) => { window.location.assign('http://localhost:3000/register');}} className="nav-link"> Sign up New Account </a></button>
             </form>
 
             <form action="/reset/password/" className="form-reset">
