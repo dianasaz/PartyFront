@@ -1,9 +1,14 @@
 .party {
-    background-color: coral;
-    border-radius: 5px;
+    background-color: rgb(248, 248, 248);
+    border-radius: 2px;
     margin: 1.5rem;
     padding: 1rem;
-    box-shadow: black;
+    box-shadow: 0 0 3px rgba(0,0,0,0.5);
+}
+
+.party:hover {
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+
 }
 
 #party .number {

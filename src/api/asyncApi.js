@@ -25,11 +25,10 @@ function queryParams(params) {
 const credentials = 'same-origin'
 
 const async = {
-    getJSON({ url}) {
-        return fetch(getFullUrl(url), {
+    getJSON({ url, params}) {
+        return fetch(getFullUrl(url, params), {
             headers,
             credentials,
-            mode: 'cors',
         })
     },
     postJSON({ url, data, params, options = {} }) {

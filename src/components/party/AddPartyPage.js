@@ -1,14 +1,14 @@
 import React from 'react';
-import Party from './Parties';
+import AddParty from './AddParty';
 import Left from '../LeftColumn'
 
-function PartiesPage() {
+function AddPartyPage() {
   return (
     <div className="row">
       <Left />
-      <Party />
+      <AddParty />
     </div>
   );
 }
 
-export default PartiesPage;
+export default AddPartyPage;

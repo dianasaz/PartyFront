@@ -4,36 +4,54 @@ import CommonRequests from '../../requests/commonRequests';
 import './PartyTabs.css';
 import Product from '../Product';
 
-class Center extends Component {
+
+class PartyTabs extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			data: null,
+			users: null,
 			products: null,
+			id: null,
 		}
 	}
 
 	componentDidMount(){
+		// const id = this.props.params.id;
+		// console.log(id);
+		CommonRequests.getProductsForParty(9)
+		.then (res => {
+		  console.log(res);
+		});
 		CommonRequests.getAction()
 		.then (result => {
-			this.setState({data: result})
-		});
-
-		CommonRequests.getProducts()
-		.then (res => {
-			this.setState({products: res})
+			CommonRequests.getProducts()
+			.then (res => {
+				this.setState({products: res, users : result})
+			});
 		});
 	}
 
-	// prod(){
-	// 	const{products} = this.state;
-	// 	products.map(() => <Product/>)
-	// }
+	getArr(arr){
+		if (arr) {
+		return arr.map((el)=> <Product name={el.name} price={el.price}/>);
+		}
+	}
+
+	getPeople(arr){
+		if (arr) {
+			return arr.map((el) => {
+				var r = el.login + " ";
+				return r;
+			});
+		}
+	}
 
 	render() {
-		const {products} = this.state;
-		const arr = products.map((el) => el);
-		console.log(arr);
+		if (this.state.users != null && this.state.products != null){
+			var {users} = this.state;
+			var{products} = this.state;
+			console.log(users, products);
+		}
 		return (
 			<div className="col-10">
 				<section id="tabs">
@@ -51,7 +69,7 @@ class Center extends Component {
 								<div className="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 									<div id="products" className="container">
 										<div className="row">
-											<p>products</p>
+											{this.getArr(products)}
 										</div>
 									</div>
 								</div>
@@ -59,7 +77,7 @@ class Center extends Component {
 									info
 								</div>
 								<div className="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-								People
+									{this.getPeople(users)}
 								</div>
 								<div className="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
 									tasks
@@ -72,4 +90,4 @@ class Center extends Component {
 		);
 	}
 }
-export default Center;
+export default PartyTabs;

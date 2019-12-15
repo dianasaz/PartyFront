@@ -3,11 +3,11 @@ import ReactDOM from "react-dom";
 
  class ButtonLogin extends React.Component {
     onclick () {
-      window.location.assign('http://localhost:3000/Login/');
+      window.location.assign('/login');
     }
 
     render() {
-      return (<a onClick={(e) => this.onclick(e)}><button type="button" className="btn btn-info">Login</button>
+      return (<a onClick={(e) => this.onclick(e)}><button type="button" className="btn btn-outline-primary">Login</button>
       </a>);
     }
   }
