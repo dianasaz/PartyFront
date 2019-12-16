@@ -33,37 +33,17 @@ class Login extends React.Component {
                     <input type="password" id="inputPassword" onChange={this.passwordChange.bind(this)} className="form-control" placeholder="Password" required="" />
 
                     <a className="btn btn-success" onClick={() => {
-                        CommonRequests.userLogin(this.state.login, this.state.password);
+                        CommonRequests.userLogin(this.state.login, this.state.password)
+                        .then (res => {
+                            localStorage.setItem('user', res);
+                        });
+                        window.location.assign('/parties');
                     }} type="submit">Sign in</a>
                     <a href="#" id="forgot_pswd">Forgot password?</a>
                     <p>Don't have an account!</p>
-                    <button className="btn btn-primary btn-block" type="button" id="btn-signup"><i className="fas fa-user-plus"></i><a onClick={(e) => { window.location.assign('/register'); }} className="nav-link"> Sign up New Account </a></button>
+                    <button className="btn btn-block" type="button" id="btn-signup"><i className="fas fa-user-plus"></i><a onClick={(e) => { window.location.assign('/register'); }} className="nav-link"> Sign up New Account </a></button>
                 </form>
 
-                <form action="/reset/password/" className="form-reset">
-                    <input type="email" id="resetEmail" className="form-control" placeholder="Email address" required="" />
-                    <button className="btn btn-primary btn-block" type="submit">Reset Password</button>
-                    <a href="#" id="cancel_reset"><i className="fas fa-angle-left"></i> Back</a>
-                </form>
-
-                <form action="/signup/" className="form-signup">
-                    <div className="social-login">
-                        <button className="btn facebook-btn social-btn" type="button"><span><i className="fab fa-facebook-f"></i> Sign up with Facebook</span> </button>
-                    </div>
-                    <div className="social-login">
-                        <button className="btn google-btn social-btn" type="button"><span><i className="fab fa-google-plus-g"></i> Sign up with Google+</span> </button>
-                    </div>
-
-                    <p>OR</p>
-
-                    <input type="text" id="user-name" className="form-control" placeholder="Full name" required=""  />
-                    <input type="email" id="user-email" className="form-control" placeholder="Email address" required />
-                    <input type="password" id="user-pass" className="form-control" placeholder="Password" required />
-                    <input type="password" id="user-repeatpass" className="form-control" placeholder="Repeat Password" required />
-
-                    <button className="btn btn-primary btn-block" type="submit"><i className="fas fa-user-plus"></i> Sign Up</button>
-                    <a href="#" id="cancel_signup"><i className="fas fa-angle-left"></i> Back</a>
-                </form>
             </div>
         );
     }

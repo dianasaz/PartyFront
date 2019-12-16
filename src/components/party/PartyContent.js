@@ -2,12 +2,23 @@ import React from 'react';
 import PartyTabs from './PartyTabs';
 import Left from '../LeftColumn'
 
-function PartyContent() {
-  return (
-    <div className="row">
+function PartyContent(props) {
+
+  function showContent(){
+    if (!isNaN(props.match.params.id)) {
+     return (<div className="row">
       <Left />
-      <PartyTabs />
-    </div>
+        <PartyTabs partyId={props.match.params.id}/>
+        </div>
+     )
+    };
+    return null;
+  }
+
+  return (
+    <>
+      {showContent()}
+    </>
   );
 }
 

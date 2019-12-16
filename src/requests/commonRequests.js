@@ -24,6 +24,25 @@ const userLogin = (inputLogin, inputPassword) => {
     })
 }
 
+const addProductForParty = (inputPartyId, inputProductId) => {
+    return asyncAPI('postJSON', {
+        url: `/parties/` + inputPartyId + '/add/product/' + inputProductId,
+        // data: action,
+    })
+}
+const deleteProductForParty = (inputPartyId, inputProductId) => {
+    return asyncAPI('deleteJSON', {
+        url: `/parties/` + inputPartyId + '/delete/product/' + inputProductId,
+        // data: action,
+    })
+}
+
+const getCountOfProductsForParty = (inputPartyId, inputProductId) => {
+    return asyncAPI('getJSON', {
+        url: '/parties/' + inputPartyId + '/products/' + inputProductId
+    } );
+}
+
 const deleteParty = (inputIid) => {
     const action = {
         id: inputIid,
@@ -59,6 +78,12 @@ const getParties = () => {
     })
 }
 
+const getParty = (inputId) => {
+    return asyncAPI('getJSON', {
+        url: `/parties/` + inputId,
+    })
+}
+
 const postAction = (inputLogin, inputPassword, inputRole) => {
     const action = {
         login: inputLogin,
@@ -78,5 +103,9 @@ export default {
     userLogin,
     addParty,
     getParties,
-    getProductsForParty
+    getProductsForParty,
+    getParty,
+    addProductForParty,
+    deleteProductForParty,
+    getCountOfProductsForParty
 }

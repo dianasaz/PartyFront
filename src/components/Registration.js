@@ -42,7 +42,8 @@ class Registration extends React.Component {
                     {/* <input type="password" id="ConfirmPassword" className="form-control" placeholder="Confirm Password"/> */}
 {/* to do confirm password onChange={this.check.bind(this)}*/}
                     <a id="submitBut" className="btn btn-success" onClick={() => {
-                        CommonRequests.postAction(this.state.login, this.state.password, 1);
+                        CommonRequests.postAction(this.state.login, this.state.password);
+                        window.location.assign('/parties');
                     }} type="submit">Sign in</a>
                 </div>
             </form>

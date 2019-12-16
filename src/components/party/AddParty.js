@@ -16,7 +16,7 @@ class AddParty extends Component {
     }
 
     dateChange = (date) => {
-        this.setState({ date: date.toDate() })
+        this.setState({ date: date })
        // console.log(date.toDate());
     }
 
@@ -54,13 +54,16 @@ class AddParty extends Component {
                     <div className="from-group">
                         <label className="col-10">Select date:</label>
                         {/* <input type="text" name="date" class="form-control" id="date" /> */}
-                        <div className="col-10" style={{ height: '300px' }}>
+                        <div 
+                            className="col-10" 
+                            // style={{ height: '300px' }}
+                        >
                             <DatePicker showDefaultIcon clear onChange={this.dateChange} />
                         </div>
                     </div>
 
                     <div className="form-group">
-                        <div className="col-offset-2 col-10">
+                        <div className="col-offset-2 col-10 m-3">
                         <a onClick={() => {CommonRequests.addParty(this.state.name, this.state.address, this.state.date);
                          window.location.assign('/parties');}}><button type="button" className="btn btn-outline-primary">Add</button> </a>                        </div>
                     </div>
