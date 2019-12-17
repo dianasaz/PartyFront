@@ -64,7 +64,11 @@ class AddParty extends Component {
 
                     <div className="form-group">
                         <div className="col-offset-2 col-10 m-3">
-                        <a onClick={() => {CommonRequests.addParty(this.state.name, this.state.address, this.state.date);
+                        <a onClick={() => {
+                            CommonRequests.addParty(this.state.name, this.state.address, this.state.date)
+                            .then (res => {
+                                    CommonRequests.addUserToParty(res.id, localStorage.getItem("user"))
+                            })
                          window.location.assign('/parties');}}><button type="button" className="btn btn-outline-primary">Add</button> </a>                        </div>
                     </div>
                 </form>

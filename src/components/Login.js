@@ -35,9 +35,11 @@ class Login extends React.Component {
                     <a className="btn btn-success" onClick={() => {
                         CommonRequests.userLogin(this.state.login, this.state.password)
                         .then (res => {
-                            localStorage.setItem('user', res);
+                            if (res != null) 
+                            {localStorage.setItem('user', res.id);
+                            window.location.assign('/parties');
+                        }
                         });
-                        window.location.assign('/parties');
                     }} type="submit">Sign in</a>
                     <a href="#" id="forgot_pswd">Forgot password?</a>
                     <p>Don't have an account!</p>

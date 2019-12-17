@@ -14,7 +14,7 @@ function Header() {
                         <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#">Profile</a>
+                        <a onClick={(e) => { window.location.assign('/profile');}} className="nav-link" href="#">Profile</a>
                     </li>
                     <li className="nav-item">
                     <a onClick={(e) => { window.location.assign('/parties');}} href="#" className="nav-link">Parties</a>

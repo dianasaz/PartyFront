@@ -8,7 +8,7 @@ class ButtonLogin extends React.Component {
   }
 
   logOut(){
-    localStorage.setItem("user", null);
+    localStorage.removeItem("user");
   }
 
   getLog(){
@@ -24,7 +24,7 @@ class ButtonLogin extends React.Component {
 
   }
 
-  componentWillMount(){
+  componentDidMount(){
     this.getLog();
   }
 

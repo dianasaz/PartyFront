@@ -1,26 +1,9 @@
 import asyncAPI from '../api'
 
 
-const getAction = () => {
-    return asyncAPI('getJSON', {
-        url: `/users/all`,
-    })
-}
-
-const getProductsForParty = (inputId) => {
-    return asyncAPI('getJSON', {
-        url: '/parties/' + inputId + '/products'
-    } );
-}
-
 const userLogin = (inputLogin, inputPassword) => {
-    const action = {
-        login: inputLogin,
-        password: inputPassword,
-    }
-    return asyncAPI('postJSON', {
-        url: `/users/login`,
-        data: action,
+    return asyncAPI('getJSON', {
+        url: `/users/login/` + inputLogin + "/password/" + inputPassword,
     })
 }
 
@@ -42,6 +25,16 @@ const getCountOfProductsForParty = (inputPartyId, inputProductId) => {
         url: '/parties/' + inputPartyId + '/products/' + inputProductId
     } );
 }
+
+const addUserToParty = (inputParty, inputUser) => {
+    return asyncAPI('postJSON', {
+        url: `/parties/` + inputParty + `/add/user/` + inputUser,
+    })
+}
+
+
+
+// ---------------- CRUD PARTY --------------------
 
 const deleteParty = (inputIid) => {
     const action = {
@@ -66,6 +59,12 @@ const addParty = (inputName, inputAddress, inputDate) => {
     })
 }
 
+//-------------------------------------------------
+
+
+
+//------------- GET ALL ---------------------------
+
 const getProducts = () => {
     return asyncAPI('getJSON', {
         url: `/products/all`,
@@ -78,23 +77,102 @@ const getParties = () => {
     })
 }
 
+const getAction = () => {
+    return asyncAPI('getJSON', {
+        url: `/users/all`,
+    })
+}
+
+const getTypes = () => {
+    return asyncAPI('getJSON', {
+        url: `/product-types/all`,
+    })
+}
+
+//---------------------------------------------------
+
+
+//------------------ GET BY ID ----------------------
+
 const getParty = (inputId) => {
     return asyncAPI('getJSON', {
         url: `/parties/` + inputId,
     })
 }
 
-const postAction = (inputLogin, inputPassword, inputRole) => {
+const getProductsForParty = (inputId) => {
+    return asyncAPI('getJSON', {
+        url: '/parties/' + inputId + '/products'
+    } );
+}
+
+const getUsersOfThisParty = (inputPartyId) => {
+    return asyncAPI('getJSON', {
+        url: '/parties/' + inputPartyId + '/users'
+    } );
+}
+
+const getType = (inputId) => {
+    return asyncAPI('getJSON', {
+        url: `/product-types/` + inputId,
+    })
+}
+
+const getUser = (inputId) => {
+    return asyncAPI('getJSON', {
+        url: `/users/` + inputId,
+    })
+}
+
+const getProduct = (inputId) => {
+    return asyncAPI('getJSON', {
+        url: `/products/` + inputId,
+    })
+}
+
+//------------------------------------------------------
+
+
+//----------------- POST -------------------------------
+
+const addProduct = (inputName, inputPrice, inputType, inputMeasure) => {
+    const action = {
+        name: inputName,
+        price: inputPrice,
+        type: inputType,
+        measure: inputMeasure,
+    };
+    return asyncAPI('postJSON', {
+        url: `/products/add`,
+        data: action, 
+    })
+}
+
+const postAction = (inputLogin, inputPassword) => {
     const action = {
         login: inputLogin,
         password: inputPassword,
-        role: inputRole,
     }
     return asyncAPI('postJSON', {
         url: `/users/add`,
         data: action,
     })
 }
+
+const takeTask = (inputParty, inputProduct, inputUser) => {
+    const action = {
+        party_id: inputParty,
+        product_id: inputProduct,
+        user_id: inputUser,
+        task_status: 2,
+    }
+    return asyncAPI('postJSON', {
+        url: `/tasks/add`,
+        data: action,
+    })
+}
+
+//---------------------------------------------------
 
 export default {
     getAction,
@@ -107,5 +185,13 @@ export default {
     getParty,
     addProductForParty,
     deleteProductForParty,
-    getCountOfProductsForParty
+    getCountOfProductsForParty,
+    getTypes,
+    addProduct,
+    getType,
+    addUserToParty,
+    getUsersOfThisParty,
+    getUser,
+    takeTask,
+    getProduct
 }

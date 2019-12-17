@@ -3,6 +3,7 @@ import { Component } from 'react';
 import CommonRequests from '../../requests/commonRequests';
 import './PartyTabs.css';
 import Product from '../Product';
+import AddProduct from '../AddProduct';
 
 class PartyTabs extends Component {
 	constructor(props) {
@@ -20,38 +21,28 @@ class PartyTabs extends Component {
 		CommonRequests.getParty(this.props.partyId)
 			.then(res => {
 				CommonRequests.getProductsForParty(this.props.partyId)
-				.then(result => {
-					this.setState({ party: res, products: result});
-				})
+					.then(result => {
+						// CommonRequests.getUsersOfThisParty(this.props.partyId)
+						// .then(arr => {
+						this.setState({ party: res, products: result });
+						// })
+					})
 			});
-		
-		// 	//this.setState({ user });
-		// //   });
-		// CommonRequests.getProductsForParty(9)
-		// .then (res => {
-		//   console.log(res);
-		// });
-		// CommonRequests.getAction()
-		// .then (result => {
-		// CommonRequests.getProducts()
-		// 	.then(result => {
-		// 		this.setState({ productsAll: result })
-		// 	});
-		// });
+			if (localStorage.getItem("user") != null) document.getElementById("invite").disabled = false;
+			else document.getElementById("invite").disabled = true;
 	}
 
 	getArr(arr) {
 		if (arr) {
-			return arr.map((el) => <Product name={el.name} id={el.id} party={this.state.party.id} price={el.price} />);
-			
+			return arr.map((el) => <Product name={el.name} id={el.id} measure={el.measure} party={this.state.party.id} price={el.price} />);
+
 		}
 	}
 
 	getPeople(arr) {
 		if (arr) {
 			return arr.map((el) => {
-				var r = el.login + " ";
-				return r;
+				return <p>{el.login}</p>
 			});
 		}
 	}
@@ -62,8 +53,6 @@ class PartyTabs extends Component {
 			var { address } = this.state.party;
 			var { date } = this.state.party;
 			var { users } = this.state.party;
-			var { productsAll } = this.state;
-			console.log(products);
 		}
 		return (
 			<div className="col-10">
@@ -83,6 +72,7 @@ class PartyTabs extends Component {
 									<div id="products" className="container">
 										<div className="row">
 											{this.getArr(products)}
+											<AddProduct party={this.props.partyId} />
 										</div>
 									</div>
 								</div>
@@ -91,7 +81,10 @@ class PartyTabs extends Component {
 									<p>Date: {date}</p>
 								</div>
 								<div className="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-									{/* {this.getPeople(users)} */}
+									<button id="invite" type="button" className="btn btn-outline-primary">
+										Invite your friend
+									</button>
+									{this.getPeople(users)}
 								</div>
 								<div className="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
 									tasks

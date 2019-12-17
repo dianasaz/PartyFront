@@ -32,6 +32,9 @@ class Product extends React.Component {
                 <div className="d-flex justify-content-center">
                     <p>Price : {this.props.price}</p>
                 </div>
+                <div className="d-flex justify-content-center">
+                    <p>Measure : {this.props.measure}</p>
+                </div>
                 <div className="d-flex justify-content-around align-content-center">
                     <div>
                         <h5 onClick={() => {
@@ -51,6 +54,15 @@ class Product extends React.Component {
                             this.setState({ count: this.state.count - 1 });
                         }}>
                             <button type="button" className="btn btn-outline-light">-</button> </a>
+                    </div>
+                    <div>
+                        <a onClick={() => {
+                            CommonRequests.getProduct(this.props.id)
+                            .then (res => {
+                                CommonRequests.addProduct(this.props.party, this.props.id, localStorage.getItem("user"));
+                            })
+                        }}>
+                            <button type="button" className="btn btn-outline-light">take task</button> </a>
                     </div>
                 </div>
             </div>

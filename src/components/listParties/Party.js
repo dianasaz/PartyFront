@@ -12,11 +12,20 @@ class Party extends Component {
     window.location.assign('/parties/' + id);
   }
 
-componentDidMount(){
-  if (localStorage.getItem("user") !== null)
-  ('button[type="button"]').attr('disabled', false);
-  else ('button[type="button"]').attr('disabled', true);
-}
+  join(party, user) {
+    if (user !== null) CommonRequests.addUserToParty(party, user);
+  }
+
+  componentDidMount() {
+    if (localStorage.getItem("user") != null) {
+      document.getElementById("but_id").disabled = false;
+      document.getElementById("party").disabled = false;
+    }
+    else {
+      document.getElementById("but_id").disabled = true;
+      document.getElementById("add").disabled = true;
+    }
+  }
 
   render() {
     return (
@@ -30,17 +39,17 @@ componentDidMount(){
                 <p> Date : {new Date(this.props.date).toLocaleDateString()}</p>
               </div>
               <div className="col-6 d-flex justify-content-end">
-                <button type="button" className="btn btn-primary align-self-center">Join</button>
+                <button type="button" id="but_id" onClick={() => this.join(this.props.id, localStorage.getItem("user"))} className="btn btn-primary align-self-center">Join</button>
+              </div>
+            </div>
+            <div className="progress" >
+              <div className="bar" style={{ width: '40%', background: 'grey' }}></div>
             </div>
           </div>
-          <div className="progress" >
-            <div className="bar" style={{ width: '40%', background: 'grey' }}></div>
-          </div>
-          </div>
-          </a>
-        </div >
-   
-        );
+        </a>
+      </div >
+
+    );
   }
 }
 
