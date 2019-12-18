@@ -183,6 +183,18 @@ const takeTask = (inputParty, inputProduct, inputUser, inputKol) => {
     })
 }
 
+const checkTask = (inputParty, inputProduct) => {
+    return asyncAPI('getJSON', {
+        url: `/tasks/check/` + inputParty + `/` + inputProduct,
+    })
+}
+
+const addMoneyToTask = (inputTask, inputMoney) => {
+    return asyncAPI('postJSON', {
+        url: `/tasks/` + inputTask + `/` + inputMoney,
+    })
+}
+
 //---------------------------------------------------
 
 export default {
@@ -206,5 +218,7 @@ export default {
     takeTask,
     getProduct,
     checkUserToParty,
-    getTasksForUser
+    getTasksForUser,
+    checkTask,
+    addMoneyToTask
 }

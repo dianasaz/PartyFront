@@ -7,21 +7,42 @@ class Product extends React.Component {
         super(props);
         this.state = {
             count: null,
+            task: null,
         }
     }
 
     componentDidMount() {
-        {
-            CommonRequests.getCountOfProductsForParty(this.props.party, this.props.id)
-                .then(res => {
-                    this.setState({ count: res });
-                })
-        }
+
+        CommonRequests.getCountOfProductsForParty(this.props.party, this.props.id)
+            .then(res => {
+                CommonRequests.checkTask(this.props.party, this.props.id)
+                    .then(result => {
+                        this.setState({ count: res, task: result });
+                    })
+            });
     }
 
-    shouldComponentUpdate() {
-        return true;
+    addButton() {
+
+        if (this.state.task != null) return null;
+        else
+            return (
+                <strong className="takeTask" onClick={() => {
+                    CommonRequests.getProduct(this.props.id)
+                        .then(res => {
+                            CommonRequests.getUser(localStorage.getItem("user"))
+                                .then(user => {
+                                    CommonRequests.getParty(this.props.party)
+                                        .then(party => {
+                                            CommonRequests.takeTask(party, res, user, this.state.count);
+                                        })
+                                })
+                        })
+                }}>Take task</strong>
+            );
+
     }
+
 
     render() {
         return (
@@ -29,7 +50,7 @@ class Product extends React.Component {
                 <div className="d-flex justify-content-center mt-3">
                     <h4>{this.props.name}</h4>
                 </div>
-                <hr/>
+                <hr />
                 <div className="d-flex justify-content-center">
                     <p>Price : {this.props.price}</p>
                 </div>
@@ -54,20 +75,9 @@ class Product extends React.Component {
                             <button type="button" className="btn btn-outline-dark">-</button> </a>
                     </div>
                 </div>
-                <hr/>
+                <hr />
                 <div className="d-flex justify-content-center">
-                    <strong className="takeTask" onClick={() => {
-                        CommonRequests.getProduct(this.props.id)
-                        .then (res => {
-                            CommonRequests.getUser(localStorage.getItem("user"))
-                            .then (user => {
-                                CommonRequests.getParty(this.props.party)
-                                .then (party => {
-                                    CommonRequests.takeTask(party, res, user, this.state.count);
-                                })
-                            })
-                        })
-                    }}>Take task</strong>
+                    {this.addButton()}
                 </div>
             </div>
         );
