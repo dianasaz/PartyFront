@@ -33,6 +33,7 @@ const async = {
         })
     },
     postJSON({ url, data, params, options = {} }) {
+        console.log(stringify(data));
         return fetch(getFullUrl(url, params), {
             ...options,
             headers,
@@ -40,7 +41,7 @@ const async = {
             method: 'POST',
             body: stringify(data),
             mode: 'cors',
-        })
+        });
     },
     deleteJSON({ url, data, options = {} }) {
         return fetch(getFullUrl(url), {

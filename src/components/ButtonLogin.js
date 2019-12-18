@@ -9,6 +9,7 @@ class ButtonLogin extends React.Component {
 
   logOut(){
     localStorage.removeItem("user");
+    this.getLog();
   }
 
   getLog(){
@@ -19,9 +20,10 @@ class ButtonLogin extends React.Component {
 
   onclick(){
     if (localStorage.getItem('user') == null) this.logIn();
-    else  
+    else  {
       this.logOut();
-
+    }
+    this.forceUpdate();
   }
 
   componentDidMount(){

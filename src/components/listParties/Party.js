@@ -13,7 +13,12 @@ class Party extends Component {
   }
 
   join(party, user) {
-    if (user !== null) CommonRequests.addUserToParty(party, user);
+    if (user != null) {
+      CommonRequests.checkUserToParty(party, user)
+      .then (res => {
+        if (res != null) CommonRequests.addUserToParty(party, user);
+      })
+    }
   }
 
   componentDidMount() {

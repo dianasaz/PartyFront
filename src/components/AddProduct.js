@@ -58,8 +58,8 @@ class AddProduct extends React.Component {
         CommonRequests.addProduct(inputName, inputPrice, inputType, inputMeasure)
             .then(res => {
                 CommonRequests.addProductForParty(this.props.party, res.id);
-            })
-
+            });
+        document.getElementById("name").innerText = "";
     }
 
     render() {
@@ -84,7 +84,7 @@ class AddProduct extends React.Component {
                                 <form>
                                     <div className="form-group">
                                         <label for="recipient-name" className="col-form-label">Name:</label>
-                                        <input type="text" className="form-control" onChange={this.nameChange.bind(this)} placeholder="Name" />
+                                        <input type="text" id="name" className="form-control" onChange={this.nameChange.bind(this)} placeholder="Name" />
                                     </div>
                                     <div className="form-group">
                                         <label for="message-text" class="col-form-label">Price:</label>

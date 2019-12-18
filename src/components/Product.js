@@ -13,9 +13,9 @@ class Product extends React.Component {
     componentDidMount() {
         {
             CommonRequests.getCountOfProductsForParty(this.props.party, this.props.id)
-            .then(res => {
-                this.setState({ count: res });
-            })
+                .then(res => {
+                    this.setState({ count: res });
+                })
         }
     }
 
@@ -26,14 +26,12 @@ class Product extends React.Component {
     render() {
         return (
             <div className="product col-md-4">
-                <div className="d-flex justify-content-center">
+                <div className="d-flex justify-content-center mt-3">
                     <h4>{this.props.name}</h4>
                 </div>
+                <hr/>
                 <div className="d-flex justify-content-center">
                     <p>Price : {this.props.price}</p>
-                </div>
-                <div className="d-flex justify-content-center">
-                    <p>Measure : {this.props.measure}</p>
                 </div>
                 <div className="d-flex justify-content-around align-content-center">
                     <div>
@@ -41,11 +39,11 @@ class Product extends React.Component {
                             CommonRequests.addProductForParty(this.props.party, this.props.id);
                             this.setState({ count: this.state.count + 1 });
                         }}>
-                            <button type="button" className="btn btn-outline-light">+</button> </h5>
+                            <button type="button" className="btn btn-outline-dark">+</button> </h5>
                     </div>
                     <div>
-                        <div className="btn text-light">
-                            {this.state.count}
+                        <div className="btn text-dark">
+                            {this.state.count} {this.props.measure}
                         </div>
                     </div>
                     <div>
@@ -53,17 +51,23 @@ class Product extends React.Component {
                             CommonRequests.deleteProductForParty(this.props.party, this.props.id);
                             this.setState({ count: this.state.count - 1 });
                         }}>
-                            <button type="button" className="btn btn-outline-light">-</button> </a>
+                            <button type="button" className="btn btn-outline-dark">-</button> </a>
                     </div>
-                    <div>
-                        <a onClick={() => {
-                            CommonRequests.getProduct(this.props.id)
-                            .then (res => {
-                                CommonRequests.addProduct(this.props.party, this.props.id, localStorage.getItem("user"));
+                </div>
+                <hr/>
+                <div className="d-flex justify-content-center">
+                    <strong className="takeTask" onClick={() => {
+                        CommonRequests.getProduct(this.props.id)
+                        .then (res => {
+                            CommonRequests.getUser(localStorage.getItem("user"))
+                            .then (user => {
+                                CommonRequests.getParty(this.props.party)
+                                .then (party => {
+                                    CommonRequests.takeTask(party, res, user, this.state.count);
+                                })
                             })
-                        }}>
-                            <button type="button" className="btn btn-outline-light">take task</button> </a>
-                    </div>
+                        })
+                    }}>Take task</strong>
                 </div>
             </div>
         );

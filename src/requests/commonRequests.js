@@ -10,13 +10,11 @@ const userLogin = (inputLogin, inputPassword) => {
 const addProductForParty = (inputPartyId, inputProductId) => {
     return asyncAPI('postJSON', {
         url: `/parties/` + inputPartyId + '/add/product/' + inputProductId,
-        // data: action,
     })
 }
 const deleteProductForParty = (inputPartyId, inputProductId) => {
     return asyncAPI('deleteJSON', {
         url: `/parties/` + inputPartyId + '/delete/product/' + inputProductId,
-        // data: action,
     })
 }
 
@@ -32,6 +30,17 @@ const addUserToParty = (inputParty, inputUser) => {
     })
 }
 
+const checkUserToParty = (inputParty, inputUser) => {
+    return asyncAPI('getJSON', {
+        url: `/parties/` + inputParty + `/check/user/` + inputUser,
+    })
+}
+
+const getTasksForUser = (inputUser) => {
+    return asyncAPI('getJSON', {
+        url: `/tasks/by-user/` + inputUser,
+    })
+}
 
 
 // ---------------- CRUD PARTY --------------------
@@ -159,12 +168,14 @@ const postAction = (inputLogin, inputPassword) => {
     })
 }
 
-const takeTask = (inputParty, inputProduct, inputUser) => {
+const takeTask = (inputParty, inputProduct, inputUser, inputKol) => {
     const action = {
-        party_id: inputParty,
-        product_id: inputProduct,
-        user_id: inputUser,
-        task_status: 2,
+        kol: inputKol,
+        money: 0,
+        party: inputParty,
+        product: inputProduct,
+        status: 1,        
+        user: inputUser,
     }
     return asyncAPI('postJSON', {
         url: `/tasks/add`,
@@ -193,5 +204,7 @@ export default {
     getUsersOfThisParty,
     getUser,
     takeTask,
-    getProduct
+    getProduct,
+    checkUserToParty,
+    getTasksForUser
 }

@@ -17,7 +17,6 @@ class AddParty extends Component {
 
     dateChange = (date) => {
         this.setState({ date: date })
-       // console.log(date.toDate());
     }
 
     nameChange(event){
@@ -53,10 +52,8 @@ class AddParty extends Component {
                     </div>
                     <div className="from-group">
                         <label className="col-10">Select date:</label>
-                        {/* <input type="text" name="date" class="form-control" id="date" /> */}
                         <div 
                             className="col-10" 
-                            // style={{ height: '300px' }}
                         >
                             <DatePicker showDefaultIcon clear onChange={this.dateChange} />
                         </div>

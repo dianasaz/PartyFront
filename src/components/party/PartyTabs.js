@@ -4,6 +4,7 @@ import CommonRequests from '../../requests/commonRequests';
 import './PartyTabs.css';
 import Product from '../Product';
 import AddProduct from '../AddProduct';
+import Task from '../Task';
 
 class PartyTabs extends Component {
 	constructor(props) {
@@ -15,22 +16,23 @@ class PartyTabs extends Component {
 	}
 
 	componentDidMount() {
-		console.log(this.props);
-		// const { match: { params } } = this.props;
-
 		CommonRequests.getParty(this.props.partyId)
 			.then(res => {
 				CommonRequests.getProductsForParty(this.props.partyId)
 					.then(result => {
-						// CommonRequests.getUsersOfThisParty(this.props.partyId)
-						// .then(arr => {
 						this.setState({ party: res, products: result });
-						// })
 					})
 			});
-			if (localStorage.getItem("user") != null) document.getElementById("invite").disabled = false;
-			else document.getElementById("invite").disabled = true;
+		if (localStorage.getItem("user") != null) document.getElementById("invite").disabled = false;
+		else document.getElementById("invite").disabled = true;
 	}
+
+	// componentWillUpdate() {
+	// 	CommonRequests.getProductsForParty(this.props.partyId)
+	// 		.then(result => {
+	// 			this.setState({ products: result });
+	// 		})
+	// }
 
 	getArr(arr) {
 		if (arr) {
@@ -46,6 +48,24 @@ class PartyTabs extends Component {
 			});
 		}
 	}
+
+	formatDate(date) {
+		if (date != null) {
+			var monthNames = [
+				"January", "February", "March",
+				"April", "May", "June", "July",
+				"August", "September", "October",
+				"November", "December"
+			];
+
+			var day = date.getDate();
+			var monthIndex = date.getMonth();
+			var year = date.getFullYear();
+
+			return day + ' ' + monthNames[monthIndex] + ' ' + year;
+		}
+	}
+
 
 	render() {
 		if (this.state.party != null) {
@@ -78,7 +98,7 @@ class PartyTabs extends Component {
 								</div>
 								<div className="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 									<p>Address: {address}</p>
-									<p>Date: {date}</p>
+									<p>Date: {this.formatDate(new Date(date))}</p>
 								</div>
 								<div className="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
 									<button id="invite" type="button" className="btn btn-outline-primary">
@@ -87,7 +107,7 @@ class PartyTabs extends Component {
 									{this.getPeople(users)}
 								</div>
 								<div className="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
-									tasks
+									<Task />
 								</div>
 							</div>
 						</div>
