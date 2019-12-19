@@ -4,8 +4,7 @@ import Left from '../LeftColumn'
 
 function AddPartyPage() {
   return (
-    <div className="row">
-      <Left />
+    <div className="d-flex justify-content-center">
       <AddParty />
     </div>
   );

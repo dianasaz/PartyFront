@@ -1,7 +1,7 @@
 import React from 'react';
 import './addProduct.css';
 import './product.css';
-import Img from '../plus.png';
+import Img from '../plus2.png';
 import CommonRequests from '../requests/commonRequests';
 
 class AddProduct extends React.Component {

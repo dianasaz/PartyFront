@@ -1,6 +1,7 @@
 import React from 'react';
 import CommonRequests from '../../requests/commonRequests';
 import Task from '../Task';
+import Party from '../listParties/Party'
 
 class Profile extends React.Component {
   constructor(props) {
@@ -9,29 +10,72 @@ class Profile extends React.Component {
       userLogin: null,
       userEmail: null,
       userName: null,
+      tasks: null,
+      parties: null,
+      price: null,
+      task_id: null,
     }
+  }
+
+
+  priceChange(event) {
+    this.setState({ price: event.target.value });
   }
 
   componentDidMount() {
     if (localStorage.getItem("user") != null) {
       CommonRequests.getUser(localStorage.getItem("user"))
         .then(res => {
-          CommonRequests.getTasksForUser(localStorage.getItem("user"))
+          CommonRequests.getTasksForUser(res.id)
             .then(result => {
-              this.setState({
-                userLogin: res.login, userEmail: res.email, userName: res.name,
-                tasks: result
-              })
+              CommonRequests.getUsersParties(res.id)
+                .then(p => {
+                  this.setState({ userLogin: res.login, userEmail: res.email, userName: res.name, tasks: result, parties: p })
+                })
             })
         })
     }
   }
 
+  modify(inputUser, inputName, inputEmail) {
+    CommonRequests.addInfo(inputUser, inputName, inputEmail);
+  }
+
   getTasks(arr) {
     if (arr) {
-      return arr.map((el) => <Task party={el.party.name} id={el.id} product={el.product.name} kol={el.kol} money={el.money} status={el.status} />);
+      return arr.map((el) => {
+        return <div data-toggle="modal" data-target="#exampleModal">
+          <Task onClick={() => this.handleClick(el.id)} party={el.party.name} id={el.id} product={el.product.name} kol={el.kol} money={el.money} status={el.status} measure={el.product.measure}/>
+        </div>
+      });
+
     }
   }
+
+  getArr(arr) {
+    if (arr) {
+      return arr.map((el) => <Party name={el.name} address={el.address} date={el.date} id={el.id} />);
+    }
+  }
+
+  nameChange(event) {
+    this.setState({ userName: event.target.value })
+  }
+
+  emailChange(event) {
+    this.setState({ userEmail: event.target.value })
+  }
+
+  onclick(inputPrice) {
+    CommonRequests.addMoneyToTask(this.state.task_id, inputPrice);
+  }
+
+  handleClick(inputTask) {
+      //('#exampleModal').modal('show');
+      // 
+      this.setState({task_id: inputTask});
+  }
+
 
   render() {
     if (this.state != null) {
@@ -43,17 +87,18 @@ class Profile extends React.Component {
         var userEmail = "Email";
       } else var userEmail = this.state.userEmail;
       var { tasks } = this.state;
+      var { parties } = this.state;
     }
     return (
-      <div className="col-10">
+      <div className="col-12">
         <section id="tabs">
           <div className="row">
             <div className="col-12 ">
               <nav>
                 <div className="nav nav-tabs nav-fill nav-justified" id="nav-tab" role="tablist">
                   <a className="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">About me</a>
-                  <a className="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Parties</a>
-                  <a className="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-about" aria-selected="false">Tasks</a>
+                  <a className="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">My parties</a>
+                  <a className="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-about" aria-selected="false">My tasks</a>
                 </div>
               </nav>
               <div className="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
@@ -70,79 +115,59 @@ class Profile extends React.Component {
                       <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon1">Name</span>
                       </div>
-                      <input type="text" class="form-control" placeholder={userName} aria-label="Name" aria-describedby="basic-addon1" />
+                      <input type="text" class="form-control" onChange={this.nameChange.bind(this)} placeholder={userName} aria-label="Name" aria-describedby="basic-addon1" />
                     </div>
 
                     <div class="input-group mb-3">
                       <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon1">Email</span>
                       </div>
-                      <input type="text" class="form-control" placeholder={userEmail} aria-label="Email" aria-describedby="basic-addon1" />
+                      <input type="text" class="form-control" onChange={this.emailChange.bind(this)} placeholder={userEmail} aria-label="Email" aria-describedby="basic-addon1" />
                     </div>
-                    <button type="submit" className="btn btn-outline-primary">Modify</button>
+                    <button type="submit" onClick={(e) => this.modify(localStorage.getItem("user"), this.state.userName, this.state.userEmail)} className="btn btn-outline-primary">Modify</button>
                   </div>
                 </div>
                 <div className="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                   <div>
-                    parties
+                    {this.getArr(parties)}
                   </div>
                 </div>
-                {/* <div className="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-                  <div>
-                    tasks
-                  </div>
-                </div> */}
                 <div className="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
                   <div className="row">
                     {this.getTasks(tasks)}
-                  </div>
 
+                    <div className="modal fade" id="exampleModal" tabindex="1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" show="true"> 
+                      <div className="modal-dialog" role="document">
+                        <div className="modal-content">
+                          <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">Is this task ready? {this.props.id}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div className="modal-body">
+                            <form>
+                              <div className="form-group">
+                                <label for="recipient-name" className="col-form-label">Put the count of money that you spent:</label>
+                                <input type="text" id="name" className="form-control" onChange={this.priceChange.bind(this)} placeholder="Money" />
+                              </div>
+                            </form>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" id="plus" data-dismiss="modal" onClick={(e) => this.onclick( this.state.price)} className="btn btn-primary">Add</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </section>
       </div>
-      // <div className="container justify-content-center col-10 bg-secondary border" >
-      //   <div > Hello,
-      //    {user}
-      //   </div>
-      //   <div className="col-6 d-flex justify-content-end">
-      //     <div>
-      //       <div className="product col-md-4" data-toggle="modal" data-target="#exampleModal">
-      //         <button> Add Information about you </button>
-      //       </div>
-      //       <div className="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      //         <div className="modal-dialog" role="document">
-      //           <div className="modal-content">
-      //             <div className="modal-header">
-      //               <h5 className="modal-title" id="exampleModalLabel">Info</h5>
-      //               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-      //                 <span aria-hidden="true">&times;</span>
-      //               </button>
-      //             </div>
-      //             <div className="modal-body">
-      //               <form>
-      //                 <div className="form-group">
-      //                   <label for="recipient-name" className="col-form-label">Name:</label>
-      //                   <input type="text" className="form-control" placeholder="Name" />
-      //                 </div>
-      //                 <div className="form-group">
-      //                   <label for="message-text" class="col-form-label">Email:</label>
-      //                   <input type="text" className="form-control"  placeholder="Price" />
-      //                 </div>
-      //                 </form>
-      //             </div>
-      //             <div class="modal-footer">
-      //               <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-      //               <button type="button" id="plus" data-dismiss="modal" className="btn btn-primary">Add</button>
-      //             </div>
-      //           </div>
-      //         </div>
-      //       </div>
-      //     </div>
-      //   </div>
-      //   </div>
     );
   }
 }

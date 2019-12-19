@@ -7,7 +7,6 @@ function PartyContent(props) {
   function showContent(){
     if (!isNaN(props.match.params.id)) {
      return (<div className="row">
-      <Left />
         <PartyTabs partyId={props.match.params.id}/>
         </div>
      )

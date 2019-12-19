@@ -11,16 +11,19 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 
 function App() {
   return (
-  
+
     <Router>
       <div className="App">
         <Header />
-        <Route strict path="/parties/:id" exact component={Party}/>
-        <Route path="/login" exact component={Login} />
-        <Route path="/parties" exact component={Parties} />
-        <Route path="/register" exact component={Register} />
-        <Route path="/profile" exact component={ProfilePage} />
-        <Route strict path="/parties/add" exact component={AddParty} />
+        <div className="container" >
+          <Route path="/" exact component={Parties}/>
+          <Route strict path="/parties/:id" exact component={Party} />
+          <Route path="/login" exact component={Login} />
+          <Route path="/parties" exact component={Parties} />
+          <Route path="/register" exact component={Register} />
+          <Route path="/profile" exact component={ProfilePage} />
+          <Route strict path="/parties/add" exact component={AddParty} />
+        </div>
       </div>
     </Router>
   );

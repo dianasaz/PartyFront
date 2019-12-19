@@ -14,7 +14,6 @@ class ProfilePage extends React.Component {
  
     return (
       <div className="row">
-        <Left />
         <Profile/>
       </div>
     );

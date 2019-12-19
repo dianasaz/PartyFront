@@ -5,7 +5,6 @@ import Left from '../LeftColumn'
 function PartiesPage() {
   return (
     <div className="row">
-      <Left />
       <Party />
     </div>
   );

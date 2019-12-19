@@ -12,6 +12,9 @@ class PartyTabs extends Component {
 		this.state = {
 			party: null,
 			products: null,
+			users: null,
+			tasks: null,
+			price: null,
 		}
 	}
 
@@ -20,33 +23,55 @@ class PartyTabs extends Component {
 			.then(res => {
 				CommonRequests.getProductsForParty(this.props.partyId)
 					.then(result => {
-						this.setState({ party: res, products: result });
+						CommonRequests.getUsersOfThisParty(this.props.partyId)
+							.then(arr => {
+								CommonRequests.getTasksByPartyAndUser(this.props.partyId, localStorage.getItem("user"))
+									.then(tasksArr => {
+										this.setState({ party: res, products: result, users: arr, tasks: tasksArr });
+									})
+							})
 					})
 			});
-		if (localStorage.getItem("user") != null) document.getElementById("invite").disabled = false;
-		else document.getElementById("invite").disabled = true;
 	}
 
-	// componentWillUpdate() {
-	// 	CommonRequests.getProductsForParty(this.props.partyId)
-	// 		.then(result => {
-	// 			this.setState({ products: result });
-	// 		})
-	// }
+	componentWillUpdate() {
+		CommonRequests.getProductsForParty(this.props.partyId)
+			.then(result => {
+				this.setState({ products: result });
+			})
+	}
 
 	getArr(arr) {
 		if (arr) {
 			return arr.map((el) => <Product name={el.name} id={el.id} measure={el.measure} party={this.state.party.id} price={el.price} />);
-
 		}
 	}
 
 	getPeople(arr) {
 		if (arr) {
 			return arr.map((el) => {
-				return <p>{el.login}</p>
+				return <div className="people">
+					<h5>
+						Login: {el.login}
+					</h5>
+				</div>
 			});
 		}
+	}
+
+	getTasks(arr) {
+		if (arr) {
+			return arr.map((el) => {
+				return <div data-toggle="modal" data-target="#exampleModal">
+					<Task onClick={() => this.handleClick(el.id)} party={el.party.name} id={el.id} product={el.product.name} kol={el.kol} money={el.money} status={el.status} measure={el.product.measure} />
+				</div>
+			});
+
+		}
+	}
+
+	priceChange(event) {
+		this.setState({ price: event.target.value });
 	}
 
 	formatDate(date) {
@@ -66,16 +91,16 @@ class PartyTabs extends Component {
 		}
 	}
 
-
 	render() {
 		if (this.state.party != null) {
 			var { products } = this.state;
 			var { address } = this.state.party;
 			var { date } = this.state.party;
-			var { users } = this.state.party;
+			var { users } = this.state;
+			var { tasks } = this.state;
 		}
 		return (
-			<div className="col-10">
+			<div className="col-12">
 				<section id="tabs">
 					<div className="row">
 						<div className="col-12 ">
@@ -84,7 +109,7 @@ class PartyTabs extends Component {
 									<a className="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Products</a>
 									<a className="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Info</a>
 									<a className="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">People</a>
-									<a className="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-about" aria-selected="false">Tasks</a>
+									<a className="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-about" aria-selected="false"> My tasks</a>
 								</div>
 							</nav>
 							<div className="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
@@ -97,17 +122,49 @@ class PartyTabs extends Component {
 									</div>
 								</div>
 								<div className="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-									<p>Address: {address}</p>
-									<p>Date: {this.formatDate(new Date(date))}</p>
+									<div className="people">
+										<h5>
+											Address: {address}
+										</h5>
+										<h5>
+											Date: {this.formatDate(new Date(date))}
+										</h5>
+									</div>
 								</div>
 								<div className="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-									<button id="invite" type="button" className="btn btn-outline-primary">
-										Invite your friend
-									</button>
 									{this.getPeople(users)}
 								</div>
 								<div className="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
-									<Task />
+
+									<div className="row">
+										{this.getTasks(tasks)}
+
+										<div className="modal fade" id="exampleModal" tabindex="1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" show="true">
+											<div className="modal-dialog" role="document">
+												<div className="modal-content">
+													<div className="modal-header">
+														<h5 className="modal-title" id="exampleModalLabel">Is this task ready? {this.props.id}</h5>
+														<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+															<span aria-hidden="true">&times;</span>
+														</button>
+													</div>
+													<div className="modal-body">
+														<form>
+															<div className="form-group">
+																<label for="recipient-name" className="col-form-label">Put the count of money that you spent:</label>
+																<input type="text" id="name" className="form-control" onChange={this.priceChange.bind(this)} placeholder="Money" />
+															</div>
+														</form>
+													</div>
+													<div class="modal-footer">
+														<button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+														<button type="button" id="plus" data-dismiss="modal" onClick={(e) => this.onclick(this.state.price)} className="btn btn-primary">Add</button>
+													</div>
+												</div>
+											</div>
+										</div>
+
+									</div>
 								</div>
 							</div>
 						</div>

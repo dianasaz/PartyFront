@@ -30,7 +30,7 @@ class Parties extends Component {
 			var {parties} = this.state;
 		}
     return (
-      <div className="fluid-container col-10">
+      <div className="fluid-container col-12">
         <Button />
         {this.getArr(parties)}
       </div>

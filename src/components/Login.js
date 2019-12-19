@@ -24,11 +24,6 @@ class Login extends React.Component {
             <div id="logreg-forms">
                 <form className="form-signin">
                     <h1 className="h3 mb-3 font-weight-normal"> Sign in</h1>
-                    <div className="social-login">
-                        <button className="btn facebook-btn social-btn" type="button"><span><i className="fab fa-facebook-f"></i> Sign in with Facebook</span> </button>
-                        <button className="btn google-btn social-btn" type="button"><span><i className="fab fa-google-plus-g"></i> Sign in with Google+</span> </button>
-                    </div>
-                    <p> OR  </p>
                     <input type="email" id="inputEmail" onChange={this.loginChange.bind(this)} className="form-control" placeholder="Login" required="" />
                     <input type="password" id="inputPassword" onChange={this.passwordChange.bind(this)} className="form-control" placeholder="Password" required="" />
 
@@ -41,7 +36,6 @@ class Login extends React.Component {
                         }
                         });
                     }} type="submit">Sign in</a>
-                    <a href="#" id="forgot_pswd">Forgot password?</a>
                     <p>Don't have an account!</p>
                     <button className="btn btn-block" type="button" id="btn-signup"><i className="fas fa-user-plus"></i><a onClick={(e) => { window.location.assign('/register'); }} className="nav-link"> Sign up New Account </a></button>
                 </form>

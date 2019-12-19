@@ -139,6 +139,12 @@ const getProduct = (inputId) => {
     })
 }
 
+const getTask = (inputId) => {
+    return asyncAPI('getJSON', {
+        url: `/tasks/` + inputId,
+    })
+}
+
 //------------------------------------------------------
 
 
@@ -190,8 +196,27 @@ const checkTask = (inputParty, inputProduct) => {
 }
 
 const addMoneyToTask = (inputTask, inputMoney) => {
+    console.log( `/tasks/` + inputTask + `/` + inputMoney);
     return asyncAPI('postJSON', {
         url: `/tasks/` + inputTask + `/` + inputMoney,
+    })
+}
+
+const getUsersParties = (inputUser) => {
+    return asyncAPI('getJSON', {
+        url: `/users/` + inputUser + `/parties`,
+    })
+}
+
+const addInfo = (inputUser, inputName, inputEmail) => {
+    return asyncAPI('postJSON', {
+        url: `/users/` + inputUser + `/add-info/` + inputName + `/` + inputEmail,
+    })
+}
+
+const getTasksByPartyAndUser = (inputParty, inputUser) => {
+    return asyncAPI('getJSON', {
+        url: `/tasks/party/` + inputParty + `/user/` + inputUser,
     })
 }
 
@@ -220,5 +245,9 @@ export default {
     checkUserToParty,
     getTasksForUser,
     checkTask,
-    addMoneyToTask
+    addMoneyToTask,
+    getTask,
+    getUsersParties,
+    addInfo,
+    getTasksByPartyAndUser
 }
