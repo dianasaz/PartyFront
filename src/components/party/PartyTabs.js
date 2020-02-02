@@ -15,6 +15,7 @@ class PartyTabs extends Component {
 			users: null,
 			tasks: null,
 			price: null,
+			task_id: null,
 		}
 	}
 
@@ -26,6 +27,8 @@ class PartyTabs extends Component {
 						CommonRequests.getUsersOfThisParty(this.props.partyId)
 							.then(arr => {
 								CommonRequests.getTasksByPartyAndUser(this.props.partyId, localStorage.getItem("user"))
+									// CommonRequests.getTasksForUser(localStorage.getItem("user"))
+
 									.then(tasksArr => {
 										this.setState({ party: res, products: result, users: arr, tasks: tasksArr });
 									})
@@ -37,7 +40,12 @@ class PartyTabs extends Component {
 	componentWillUpdate() {
 		CommonRequests.getProductsForParty(this.props.partyId)
 			.then(result => {
-				this.setState({ products: result });
+				CommonRequests.getTasksByPartyAndUser(this.props.partyId, localStorage.getItem("user"))
+				// CommonRequests.getTasksForUser(localStorage.getItem("user"))
+
+				.then(tasksArr => {
+					this.setState({products: result, tasks: tasksArr });
+				})
 			})
 	}
 
@@ -50,7 +58,7 @@ class PartyTabs extends Component {
 	getPeople(arr) {
 		if (arr) {
 			return arr.map((el) => {
-				return <div className="people">
+				return <div className="people note">
 					<h5>
 						Login: {el.login}
 					</h5>
@@ -62,7 +70,7 @@ class PartyTabs extends Component {
 	getTasks(arr) {
 		if (arr) {
 			return arr.map((el) => {
-				return <div data-toggle="modal" data-target="#exampleModal">
+				return <div data-toggle="modal" data-target="#exampleModal1">
 					<Task onClick={() => this.handleClick(el.id)} party={el.party.name} id={el.id} product={el.product.name} kol={el.kol} money={el.money} status={el.status} measure={el.product.measure} />
 				</div>
 			});
@@ -91,13 +99,26 @@ class PartyTabs extends Component {
 		}
 	}
 
+	onclick(inputPrice) {
+		CommonRequests.addMoneyToTask(this.state.task_id, inputPrice);
+	}
+
+	handleClick(inputTask) {
+		//('#exampleModal').modal('show');
+		// 
+		this.setState({ task_id: inputTask });
+	}
+
+
 	render() {
 		if (this.state.party != null) {
 			var { products } = this.state;
 			var { address } = this.state.party;
 			var { date } = this.state.party;
-			var { users } = this.state;
-			var { tasks } = this.state;
+			if (this.state != null) {
+				var { users } = this.state;
+				var { tasks } = this.state;
+			}
 		}
 		return (
 			<div className="col-12">
@@ -122,7 +143,7 @@ class PartyTabs extends Component {
 									</div>
 								</div>
 								<div className="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-									<div className="people">
+									<div className="people note">
 										<h5>
 											Address: {address}
 										</h5>
@@ -134,12 +155,11 @@ class PartyTabs extends Component {
 								<div className="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
 									{this.getPeople(users)}
 								</div>
-								<div className="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
-
+								<div className="tab-pane fade" id="nav-about"  role="tabpanel" aria-labelledby="nav-about-tab">
 									<div className="row">
 										{this.getTasks(tasks)}
 
-										<div className="modal fade" id="exampleModal" tabindex="1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" show="true">
+										<div className="modal fade" id="exampleModal1" tabindex="1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" show="true">
 											<div className="modal-dialog" role="document">
 												<div className="modal-content">
 													<div className="modal-header">

@@ -1,6 +1,7 @@
 import React from 'react';
 import './product.css';
 import CommonRequests from '../requests/commonRequests';
+import'../note.css';
 
 class Product extends React.Component {
     constructor(props) {
@@ -22,6 +23,13 @@ class Product extends React.Component {
             });
     }
 
+    componentWillUpdate() {
+        CommonRequests.checkTask(this.props.party, this.props.id)
+        .then(result => {
+            this.setState({task: result });
+        })
+    }
+    
     addButton() {
 
         if (this.state.task != null) return null;
@@ -46,7 +54,7 @@ class Product extends React.Component {
 
     render() {
         return (
-            <div className="product col-md-4">
+            <div className="product col-md-4 note">
                 <div className="d-flex justify-content-center mt-3">
                     <h4>{this.props.name}</h4>
                 </div>

@@ -220,6 +220,12 @@ const getTasksByPartyAndUser = (inputParty, inputUser) => {
     })
 }
 
+const deleteTask = (input_task_id) => {
+    return asyncAPI('deleteJSON', {
+        url: `/tasks/` + input_task_id + `/delete`,
+    })
+}
+
 //---------------------------------------------------
 
 export default {
@@ -249,5 +255,6 @@ export default {
     getTask,
     getUsersParties,
     addInfo,
-    getTasksByPartyAndUser
+    getTasksByPartyAndUser,
+    deleteTask
 }

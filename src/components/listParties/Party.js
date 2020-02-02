@@ -17,12 +17,8 @@ class Party extends Component {
 
   join(party, user) {
     if (user != null) {
-      CommonRequests.checkUserToParty(party, user)
-        .then(res => {
-          if (res != null) {
-            CommonRequests.addUserToParty(party, user);
-          }
-        })
+      CommonRequests.addUserToParty(party, user);
+
     }
   }
 
@@ -38,16 +34,16 @@ class Party extends Component {
     }
 
     CommonRequests.checkUserToParty(this.props.id, localStorage.getItem("user"))
-    .then(res => {
-      this.setState({join : res})
-    })
+      .then(res => {
+        this.setState({ join: res })
+      })
   }
 
   getButton(join) {
-      if (join != null) {
-        return <button type="button" id="but_id" onClick={() => this.join(this.props.id, localStorage.getItem("user"))} className="btn btn-primary align-self-center" disabled>You joined</button>
-      }
-      else return <button type="button" id="but_id" onClick={() => this.join(this.props.id, localStorage.getItem("user"))} className="btn btn-primary align-self-center">Join</button>
+    if (join != null) {
+      return <button type="button" id="but_id" onClick={() => this.join(this.props.id, localStorage.getItem("user"))} className="btn btn-primary align-self-center" disabled>You joined</button>
+    }
+    else return <button type="button" id="but_id" onClick={() => this.join(this.props.id, localStorage.getItem("user"))} className="btn btn-primary align-self-center">Join</button>
   }
 
   render() {
@@ -55,7 +51,7 @@ class Party extends Component {
       var join = this.state.join;
     }
     return (
-      <div className="party" id="party">
+      <div className="party note" id="party">
         <a onClick={() => this.onclick(this.props.id)}>
           <div>
             <h2>Party: {this.props.name}</h2>

@@ -59,7 +59,6 @@ class AddProduct extends React.Component {
             .then(res => {
                 CommonRequests.addProductForParty(this.props.party, res.id);
             });
-        document.getElementById("name").innerText = "";
     }
 
     render() {

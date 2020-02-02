@@ -1,5 +1,6 @@
 import React from 'react';
-import { DatePicker, DatePickerInput } from 'rc-datepicker'; import { Component } from 'react';
+import { DatePicker, DatePickerInput } from 'rc-datepicker'; 
+import { Component } from 'react';
 import CommonRequests from '../../requests/commonRequests';
 import './PartyTabs.css';
 import Product from '../Product';
@@ -58,14 +59,10 @@ class AddParty extends Component {
                         >
                             <DatePickerInput
                                 onChange={this.dateChange.bind(this)}
-                                // value={new Date()}
+                                minDate={new Date()}
                                 className='my-custom-datepicker-component'
                             />
 
-                            {/* <DatePicker 
-                            onChange={this.} 
-                            value={new Date()}
-                             />                        */}
                             </div>
                     </div>
 
